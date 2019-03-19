@@ -31,6 +31,8 @@ services:
         image: mariadb:10.1.21
         ports:
             - "13306:3306"
+        networks:
+            - app-tier
         environment:
             - MYSQL_DATABASE=devbox
             - MYSQL_ROOT_PASSWORD=password
