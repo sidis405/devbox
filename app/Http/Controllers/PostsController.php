@@ -8,6 +8,13 @@ class PostsController extends Controller
 {
     public function index()
     {
-        return Post::with('user', 'category', 'tags')->get();
+        $posts = Post::with('user', 'category', 'tags')->get();
+
+        return view('posts.index', ['posts' => $posts]);
+    }
+
+    public function show(Post $post)
+    {
+        return view('posts.show', ['post' => $post]);
     }
 }
