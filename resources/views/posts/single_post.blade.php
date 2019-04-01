@@ -4,6 +4,9 @@
         <small>
             by <strong>{{ $post->user->name }}</strong>
             on <strong>{{ $post->category->name }}</strong>
+            @can('update', $post)
+                <a href="{{ route('posts.edit', $post) }}">[ Edit ]</a>
+            @endcan
         </small>
     </div>
     <div class="card-body">

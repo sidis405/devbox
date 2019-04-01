@@ -6,9 +6,17 @@ use App\Tag;
 use App\Post;
 use App\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index', 'show');
+        $this->middleware('can:update,post')->only('edit', 'update');
+        $this->middleware('can:delete,post')->only('destroy');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,15 +48,13 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        $post = auth()->user()
-            ->posts()
-            ->create(
-                $request->only('title', 'category_id', 'preview', 'body')
-            );
+        $post = auth()->user()->posts()->create($request->validated());
 
-        return $post;
+        $post->tags()->sync($request->tags);
+
+        return redirect()->route('posts.show', $post);
     }
 
     /**
@@ -70,7 +76,10 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $categories = Category::all();
+        $tags = Tag::all();
+
+        return view('posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -80,9 +89,13 @@ class PostsController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        $post->update($request->validated());
+
+        $post->tags()->sync($request->tags);
+
+        return redirect()->route('posts.show', $post);
     }
 
     /**
@@ -93,6 +106,8 @@ class PostsController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->tags()->sync([]);
+        $post->delete();
+        return redirect()->to('/');
     }
 }
