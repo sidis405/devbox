@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    protected $guarded = [];
+
     public function getRouteKeyName()
     {
         return 'slug';
@@ -30,5 +33,25 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    /**
+     * Accessors - Get.ters - Modifica rappresentazione campo
+     */
+
+    // public function getTitleAttribute($title)
+    // {
+    //     return join('', array_reverse(str_split(strtoupper($title))));
+    // }
+
+
+    /**
+     * Mutators - Setters
+     */
+
+    public function setTitleAttribute($title)
+    {
+        $this->attributes['title'] = $title;
+        $this->attributes['slug'] = Str::slug($title);
     }
 }
