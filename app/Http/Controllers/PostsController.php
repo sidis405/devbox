@@ -39,7 +39,12 @@ class PostsController extends Controller
         $categories = Category::all();
         $tags = Tag::all();
 
-        return view('posts.create', compact('categories', 'tags'));
+        // return view('posts.create', compact('categories', 'tags'))->withPost(new Post);
+        return view('posts.create', [
+            'categories' => $categories,
+            'tags' => $tags,
+            'post' => new Post,
+        ]);
     }
 
     /**

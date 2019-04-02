@@ -46,12 +46,23 @@ class Post extends Model
 
 
     /**
-     * Mutators - Setters
+     * Mutators - Set.ters
      */
 
     public function setTitleAttribute($title)
     {
         $this->attributes['title'] = $title;
         $this->attributes['slug'] = Str::slug($title);
+    }
+
+    /**
+     * Functions
+     */
+
+    public function tagLinks()
+    {
+        return $this->tags->flatMap(function ($tag) {
+            return [$tag->name => route('tags.show', $tag)];
+        });
     }
 }
