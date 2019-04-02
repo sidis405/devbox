@@ -8,7 +8,6 @@ Route::get('categories/{category}', 'CategoriesController')->name('categories.sh
 Route::get('tags/{tag}', 'TagsController')->name('tags.show');
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
 
 
 // REST

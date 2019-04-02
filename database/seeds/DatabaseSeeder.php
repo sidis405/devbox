@@ -5,6 +5,7 @@ use App\Post;
 use App\User;
 use App\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +23,16 @@ class DatabaseSeeder extends Seeder
         $categories = factory(Category::class, 10)->create();
 
         // 10 utenti
-        $users = factory(User::class, 10)->create();
+        User::create([
+            'name' => 'Sid',
+            'email' => 'forge405@gmail.com',
+            'role' => 'admin',
+            'password' => Hash::make('password')
+        ]);
+
+        factory(User::class, 9)->create();
+
+        $users = User::all();
 
         foreach ($users as $user) {
             // 15 post per utente

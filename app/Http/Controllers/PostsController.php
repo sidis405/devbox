@@ -6,6 +6,7 @@ use App\Tag;
 use App\Post;
 use App\Category;
 use Illuminate\Http\Request;
+use App\Events\PostWasUpdated;
 use App\Http\Requests\PostRequest;
 
 class PostsController extends Controller
@@ -99,6 +100,12 @@ class PostsController extends Controller
         $post->update($request->validated());
 
         $post->tags()->sync($request->tags);
+
+        $post->update([
+            'cover' => $request->cover->store('covers')
+        ]);
+
+        event(new PostWasUpdated($post));
 
         return redirect()->route('posts.show', $post);
     }

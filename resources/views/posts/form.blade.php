@@ -4,6 +4,11 @@
     </div>
 
     <div class="form-group">
+        <label>Choose Cover</label>
+        <input type="file" name="cover" class="form-control">
+    </div>
+
+    <div class="form-group">
         <label>Category</label>
         <select name="category_id" class="form-control">
             <option></option>

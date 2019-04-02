@@ -44,6 +44,10 @@ class Post extends Model
     //     return join('', array_reverse(str_split(strtoupper($title))));
     // }
 
+    public function getCoverAttribute()
+    {
+        return '/storage' . ($cover ?? '/covers/default.jpg');
+    }
 
     /**
      * Mutators - Set.ters
@@ -64,5 +68,15 @@ class Post extends Model
         return $this->tags->flatMap(function ($tag) {
             return [$tag->name => route('tags.show', $tag)];
         });
+    }
+
+    public function wasAuthoredBy(User $user)
+    {
+        return $user->id == $this->user_id;
+    }
+
+    public function wasNotAuthoredBy(User $user)
+    {
+        return ! $this->wasAuthoredBy($user);
     }
 }
