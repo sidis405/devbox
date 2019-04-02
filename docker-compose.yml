@@ -4,6 +4,8 @@ networks:
         driver: bridge
 services:
     app:
+
+        user: "${USER_AND_GROUP}"
         build:
             context: .
             dockerfile: .docker/php/Dockerfile
