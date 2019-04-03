@@ -9,6 +9,10 @@ services:
         build:
             context: .
             dockerfile: .docker/php/Dockerfile
+            args:
+                - CURR_USER_ID=${CURR_USER_ID}
+                - CURR_GROUP_ID=${CURR_GROUP_ID}
+                - USER_AND_GROUP=${USER_AND_GROUP}
         networks:
             - app-tier
         ports:

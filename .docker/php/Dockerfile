@@ -34,3 +34,12 @@ RUN composer install \
     --no-plugins \
     --no-scripts \
     --prefer-dist
+
+
+
+ARG CURR_USER_ID
+ARG CURR_GROUP_ID
+ARG USER_AND_GROUP
+
+COPY .docker/php/modify-wwwdata.sh /usr/local/bin/modify-wwwdata
+RUN chmod +x /usr/local/bin/modify-wwwdata && modify-wwwdata
