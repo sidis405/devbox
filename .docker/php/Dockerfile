@@ -1,4 +1,4 @@
-FROM php:7.1.9-fpm
+FROM php:7.2.16-fpm-stretch
 
 COPY .docker/php/composer-installer.sh /usr/local/bin/composer-installer
 
