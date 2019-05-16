@@ -9,7 +9,6 @@ Route::get('tags/{tag}', 'TagsController')->name('tags.show');
 
 Auth::routes();
 
-
 // REST
 // GET--, POST, PUT|PATCH, DELETE--
 

@@ -44,14 +44,19 @@ class Post extends Model
     //     return join('', array_reverse(str_split(strtoupper($title))));
     // }
 
-    public function getCoverAttribute()
+    public function getCoverAttribute($cover)
     {
-        return '/storage' . ($cover ?? '/covers/default.jpg');
+        return '/storage/' . ($cover ?? '/covers/default.jpg');
     }
 
     /**
      * Mutators - Set.ters
      */
+
+    public function setCoverAttribute($cover)
+    {
+        $this->attributes['cover'] = $cover->store('covers');
+    }
 
     public function setTitleAttribute($title)
     {

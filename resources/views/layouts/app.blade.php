@@ -83,7 +83,7 @@
                         @yield('content')
                     </div>
                     <div class="col-md-3">
-                        // Sidebar
+                        @include('layouts.sidebar.sidebar')
                     </div>
                 </div>
             </div>

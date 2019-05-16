@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Tag;
 use App\Post;
-use App\Category;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Events\PostWasUpdated;
 use App\Http\Requests\PostRequest;
@@ -25,7 +24,17 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('user', 'category', 'tags')->paginate(15);
+        $posts = Post::with('user', 'category', 'tags');
+
+        if ($year = request('year')) {
+            $posts = $posts->whereYear('created_at', $year);
+        }
+
+        if ($month = request('month')) {
+            $posts = $posts->whereMonth('created_at', Carbon::parse($month)->format('m'));
+        }
+
+        $posts = $posts->paginate(15);
 
         return view('posts.index', compact('posts'));
     }
@@ -37,15 +46,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $tags = Tag::all();
-
-        // return view('posts.create', compact('categories', 'tags'))->withPost(new Post);
-        return view('posts.create', [
-            'categories' => $categories,
-            'tags' => $tags,
-            'post' => new Post,
-        ]);
+        return view('posts.create')->withPost(new Post);
     }
 
     /**
@@ -82,10 +83,7 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        $categories = Category::all();
-        $tags = Tag::all();
-
-        return view('posts.edit', compact('post', 'categories', 'tags'));
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -100,10 +98,6 @@ class PostsController extends Controller
         $post->update($request->validated());
 
         $post->tags()->sync($request->tags);
-
-        $post->update([
-            'cover' => $request->cover->store('covers')
-        ]);
 
         event(new PostWasUpdated($post));
 

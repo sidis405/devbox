@@ -12,5 +12,6 @@ $factory->define(App\Post::class, function (Faker $faker) {
 
         'user_id' => factory(App\User::class),
         'category_id' => factory(App\Category::class),
+        'created_at' => $faker->dateTimeBetween($startDate = '-3 years', $endDate = 'now', $timezone = null),
     ];
 });
