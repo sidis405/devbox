@@ -34,7 +34,7 @@ class PostsController extends Controller
             $posts = $posts->whereMonth('created_at', Carbon::parse($month)->format('m'));
         }
 
-        $posts = $posts->paginate(15);
+        $posts = $posts->paginate(5);
 
         return view('posts.index', compact('posts'));
     }
