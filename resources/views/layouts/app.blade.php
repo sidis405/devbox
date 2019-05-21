@@ -41,6 +41,11 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
+                        @foreach(config('app.locales') as $key => $label)
+                            <li class="nav-item">
+                                <a class="nav-link {{ $key === app()->getLocale() ? 'active' : '' }}" href="{{ prepareLocalisedUrl($key )}}">{{ $label }}</a>
+                            </li>
+                        @endforeach
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>

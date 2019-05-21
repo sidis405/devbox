@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h4>Latest posts ({{ $posts->total() }})</h4>
+    <h4>@lang('blog.latest_posts') ({{ $posts->total() }})</h4>
 
     @foreach($posts as $post)
 

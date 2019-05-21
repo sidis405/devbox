@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 
 class Handler extends ExceptionHandler
 {
@@ -35,6 +36,10 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($exception instanceof MaintenanceModeException) {
+            throw new TestException;
+        }
+
         parent::report($exception);
     }
 
@@ -49,6 +54,10 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof AuthorizationException) {
             return redirect('/')->withMessage('Foo');
+        }
+
+        if ($exception instanceof TestException) {
+            dd('CUSTOM Exception');
         }
         return parent::render($request, $exception);
     }
