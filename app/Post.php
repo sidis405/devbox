@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Support\Str;
+use Backpack\CRUD\CrudTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use CrudTrait;
     protected $guarded = [];
 
     public function getRouteKeyName()

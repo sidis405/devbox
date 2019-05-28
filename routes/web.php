@@ -5,9 +5,15 @@ Route::get('/', 'PostsController@index')->name('posts.index');
 Route::resource('posts', 'PostsController')->except('index');
 
 Route::get('categories/{category}', 'CategoriesController')->name('categories.show');
-Route::get('tags/{tag}', 'TagsController')->name('tags.show');
+Route::get('tags', 'TagsController@index')->name('tags.index');
+Route::get('tags/{tag}', 'TagsController@show')->name('tags.show');
 
 Auth::routes();
+
+Route::middleware('admin')->prefix('admin')->group(function () {
+    CRUD::resource('categories', 'Admin\CategoryCrudController');
+    CRUD::resource('posts', 'Admin\PostCrudController');
+});
 
 // REST
 // GET--, POST, PUT|PATCH, DELETE--

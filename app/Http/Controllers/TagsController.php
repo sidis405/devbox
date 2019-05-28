@@ -7,7 +7,12 @@ use App\Post;
 
 class TagsController extends Controller
 {
-    public function __invoke(Tag $tag)
+    public function index()
+    {
+        return Tag::has('posts')->withCount('posts')->get();
+    }
+
+    public function show(Tag $tag)
     {
         $posts = Post::whereHas('tags', function ($query) use ($tag) {
             $query->where('tag_id', $tag->id); // pivot

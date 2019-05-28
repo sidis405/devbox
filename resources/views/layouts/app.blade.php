@@ -94,5 +94,6 @@
             </div>
         </main>
     </div>
+    @section('scripts')
 </body>
 </html>
