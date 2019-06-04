@@ -11,12 +11,22 @@
     </div>
 </div>
 
-<categories
-    :title="{{ json_encode(__('blog.categories')) }}"
-    :categories="{{ json_encode($categories) }}">
-</categories>
+<div class="card">
+    <div class="card-header">{{ __('blog.categories') }}</div>
+    <div class="card-body">
+        <ul>
+            @foreach($categories as $category)
+                <li><a href="{{ route('categories.show', $category) }}">{{ $category->name }} ({{ $category->posts_count}})</a></li>
+            @endforeach
+        </ul>
+    </div>
+</div>
 
-<tags
-     :title="{{ json_encode(__('blog.tags')) }}"
-     :tags="{{ json_encode($tags) }}">
-</tags>
+<div class="card">
+    <div class="card-header">{{ __('blog.tags') }}</div>
+    <div class="card-body">
+            @foreach($tags as $tag)
+                <a style="font-size: {{ $tag->posts_count * 1.2}}px" href="{{ route('tags.show', $tag) }}">{{ $tag->name }}</a>
+            @endforeach
+    </div>
+</div>
